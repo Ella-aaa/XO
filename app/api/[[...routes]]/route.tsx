@@ -4,7 +4,6 @@ import { postLum0xTestFrameValidation } from "@/app/utils/helpers";
 import { Button, Frog, TextInput } from "frog";
 import { devtools } from "frog/dev";
 import { useState } from "frog/jsx";
-// import { neynar } from 'frog/hubs'
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 
@@ -17,7 +16,7 @@ const app = new Frog<{ State: State }>({
   basePath: "/api",
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
-  title: "Frog Frame",
+  title: "XO",
   initialState: {
     showNotification: false,
   },
@@ -63,7 +62,7 @@ app.frame("/", async (c) => {
         >
           +5 $xoxo Someone DM you
         </div>
-        {!state.showNotification && (
+        {state.showNotification && (
           <div
             style={{
               position: "absolute",
