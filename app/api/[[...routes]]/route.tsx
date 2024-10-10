@@ -62,7 +62,7 @@ app.frame("/", async (c) => {
         >
           +5 $xoxo Someone DM you
         </div>
-        {state.showNotification && (
+        {!state.showNotification && (
           <div
             style={{
               position: "absolute",
@@ -81,22 +81,6 @@ app.frame("/", async (c) => {
             <div style={{ fontSize: "28px", fontWeight: "bold" }}>
               you have to follow first
             </div>
-            <button
-              onClick={() => {
-                console.log("here!");
-                state.showNotification = false;
-              }}
-              style={{
-                marginTop: "10px",
-                padding: "5px 10px",
-                color: "#fff",
-                border: "none",
-                borderRadius: "3px",
-                cursor: "pointer",
-              }}
-            >
-              Close
-            </button>
           </div>
         )}
       </div>
