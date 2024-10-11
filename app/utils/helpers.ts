@@ -28,34 +28,15 @@ export async function postLum0xTestFrameValidation(fid: number, path: string) {
   });
 }
 
-export async function getUser(
-  channel: string | undefined,
-  startDate: string | undefined,
-  limit: number | undefined
+export async function isFollower(
+  // fids: string | undefined,
+  viewer_fid: number | undefined
 ) {
-  let res = await Lum0x.farcasterFeed.getFeed({
-    feed_type: "filter",
-    filter_type: "channel_id",
-    channel_id: channel,
-    limit: limit,
+  let res = await Lum0x.farcasterUser.getUserByFids({
+    fids: "771900", //user : xo-official
+    viewer_fid: viewer_fid,
   });
 
-  let startDateUnix = startDate && new Date(startDate).getTime();
-  let filteredCasts = res.casts.filter(
-    (cast: { timestamp: number }) =>
-      Number(startDateUnix) < new Date(cast.timestamp).getTime()
-  );
-
-  if (filteredCasts.length === 0) {
-    return { fid: 1, display_name: "" };
-  }
-
-  let authors = filteredCasts.map((cast: any) => cast.author.fid);
-  let authorSet: Set<any> = new Set(authors);
-
-  const authorList = Array.from(authorSet);
-  const randomArray = authorList.sort(() => Math.random() - 0.5);
-  const displayName = await getUserDisplayName(randomArray[0]);
-
-  return { fid: randomArray[0], display_name: displayName };
+  let isFollower = res.users[0].viewer_context?.following;
+  return isFollower;
 }

@@ -1,6 +1,6 @@
 /** @jsxImportSource frog/jsx */
 
-import { postLum0xTestFrameValidation } from "@/app/utils/helpers";
+import { isFollower, postLum0xTestFrameValidation } from "@/app/utils/helpers";
 import { Button, Frog, TextInput } from "frog";
 import { devtools } from "frog/dev";
 import { useState } from "frog/jsx";
@@ -62,7 +62,7 @@ app.frame("/", async (c) => {
         >
           +5 $xoxo Someone DM you
         </div>
-        {!state.showNotification && (
+        {!(await isFollower(fid)) && (
           <div
             style={{
               position: "absolute",
@@ -79,14 +79,21 @@ app.frame("/", async (c) => {
             }}
           >
             <div style={{ fontSize: "28px", fontWeight: "bold" }}>
-              you have to follow first
+              To reveal the profile, you have to follow first.
             </div>
           </div>
         )}
       </div>
     ),
     intents: [
-      <Button action="/profile">Reveal</Button>,
+      (await isFollower(fid)) ? (
+        <Button action="/profile">Reveal</Button>
+      ) : (
+        <Button.Link href="https://warpcast.com/xo-official">
+          Go to follow
+        </Button.Link>
+      ),
+      ,
       <Button action="/status">Check My $XOXO</Button>,
     ],
   });
